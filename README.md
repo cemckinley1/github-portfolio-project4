@@ -66,6 +66,8 @@ RIGHT JOIN regions r
 ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 2016;
 ```
+![](/assets/img/Output1b.png)
+
 
 ### 1c. What was the change (in sq km) in the forest area of the world from 1990 to 2016?
 
@@ -103,6 +105,8 @@ RIGHT JOIN regions r
 ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND (fa.year = 2016 OR fa.year = 1990);
 ```
+![](/assets/img/Output1d.png)
+
 
 ### 1e. If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?
 
@@ -138,6 +142,10 @@ WHERE fa.country_code = 'WLD')t2)
 ORDER BY 4 DESC
 LIMIT 1;
 ```
+![](/assets/img/Output1e.png)
+
+---
+
 ## 2. Regional Outlook
 
 ### 2a. What was the percent forest of the entire world in 2016? Which region had the HIGHEST percent forest in 2016, and which had the LOWEST, to 2 decimal places?
