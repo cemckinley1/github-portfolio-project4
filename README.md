@@ -91,7 +91,7 @@ AND b.year = 1990
 WHERE a.country_code = 'WLD' AND (a.year = 1990 OR a.year = 2016)) t1;
 ```
 
-### 1d.What was the percent change in forest area of the world between 1990 and 2016?
+### 1d. What was the percent change in forest area of the world between 1990 and 2016?
 
 ```sql
 SELECT fa.country_code,
@@ -108,7 +108,7 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND (fa.year = 2016 OR fa.year = 1990);
 ```
 
-### 1e.If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?
+### 1e. If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?
 
 ```sql
 SELECT t1.country_code, t1.country_name, t1.year, la.total_area_sq_mi * 2.59 AS total_area_sqkm
@@ -142,6 +142,259 @@ WHERE fa.country_code = 'WLD')t2)
 ORDER BY 4 DESC
 LIMIT 1;
 ```
+## 2. Regional Outlook
+
+### 2a. What was the percent forest of the entire world in 2016? Which region had the HIGHEST percent forest in 2016, and which had the LOWEST, to 2 decimal places?
+
+```sql
+SELECT r.region,
+    fa.year,
+    TRUNC(((fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code = 'WLD' AND fa.year = 2016
+GROUP BY 1, 2, 3;  
+```
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 2016 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 3 DESC
+LIMIT 1;
+```
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 2016 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 3
+LIMIT 1; 
+```
+
+### 2b. What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, and which had the LOWEST, to 2 decimal places?
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code = 'WLD' AND fa.year = 1990
+GROUP BY 1, 2, 3; 
+```
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 1990 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 3 DESC
+LIMIT 1;
+```
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 1990 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 3
+LIMIT 1;
+```
+
+
+### 2c. Based on the table you created, which regions of the world DECREASED in forest area from 1990 to 2016?
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 1990 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 1;
+```
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_designated_as_forest
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.year = 2016 AND fa.country_code != 'WLD'
+GROUP BY 1, 2
+ORDER BY 1;  
+```
+
+```sql
+SELECT r.region, 
+        fa.year, 
+        TRUNC(((SUM(fa.forest_area_sqkm) / SUM(la.total_area_sq_mi * 2.59) * 100)::numeric), 2) AS percent_forest_area
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE r.region = 'World' AND (fa.year = 1990 OR fa.year = 2016)
+GROUP BY 1, 2
+ORDER BY 1, 2; 
+
+```
+
+## 3. Country-level Detail
+
+### Success Stories
+
+```sql
+SELECT t1.country_code, t1.country_name, t1.region, t1.year, t1.lag, t1.forest_sqkm_change
+FROM(SELECT fa.country_code, fa.country_name, r.region, fa.year, fa.forest_area_sqkm, LAG(forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS lag, forest_area_sqkm - LAG(forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS forest_sqkm_change
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
+ORDER BY fa.year DESC, forest_sqkm_change DESC) t1
+WHERE t1.forest_sqkm_change != 0 AND t1.year != 1990
+```
+
+```sql
+SELECT t1.country_code, t1.country_name, t1.region,  TRUNC(((t1.percent_change)::numeric), 2) AS percent_change
+FROM(SELECT fa.country_code,
+       fa.country_name,
+       r.region,
+              fa.year,
+       fa.forest_area_sqkm,
+       LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS lag, ((fa.forest_area_sqkm - LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year)) / LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year)) * 100 AS percent_change
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)) t1
+WHERE t1.percent_change != 0 AND t1.year != 1990
+ORDER BY 4 DESC;
+```
+
+### 3a. Which 5 countries saw the largest amount decrease in forest area from 1990 to 2016? What was the difference in forest area for each?
+
+```sql
+SELECT fa.country_code,
+       fa.country_name,
+       r.region,
+        fa.year,
+       fa.forest_area_sqkm,
+       LAG(forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS lag,
+        forest_area_sqkm - LAG(forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS forest_sqkm_change
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
+ORDER BY fa.year DESC, forest_sqkm_change
+LIMIT 5;
+```
+
+### 3b. Which 5 countries saw the largest percent decrease in forest area from 1990 to 2016? What was the percent change to 2 decimal places for each?
+
+```sql
+SELECT fa.country_code,
+       fa.country_name,
+       r.region,
+        fa.year,
+       fa.forest_area_sqkm, LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year) AS "1990_forest_area_sqkm", ((fa.forest_area_sqkm - LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year)) / LAG(fa.forest_area_sqkm) OVER (ORDER BY fa.country_code, fa.year)) * 100 AS percent_change
+FROM forest_area fa
+JOIN land_area la
+ON fa.country_code = la.country_code AND fa.year = la.year
+RIGHT JOIN regions r
+ON r.country_code = la.country_code
+WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
+ORDER BY fa.year DESC, percent_change
+LIMIT 5;
+```
+
+### 3c. If countries were grouped by percent forestation in quartiles, which group had the most countries in it in 2016?
+
+```sql
+SELECT t1.quartile_group, COUNT(t1.quartile_group)
+FROM
+(SELECT fa.country_name, fa.year, fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 AS percent_forest_area,
+CASE WHEN fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 < 25 THEN 'Quartile 1'
+WHEN fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 BETWEEN 25 AND 50 THEN 'Quartile 2'
+WHEN fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 BETWEEN 50 AND 75 THEN 'Quartile 3'
+WHEN fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 > 75 THEN 'Quartile 4' ELSE 'Quartile 1' END AS quartile_group
+    FROM forest_area fa
+    JOIN land_area la
+    ON fa.country_code = la.country_code AND fa.year = la.year
+    RIGHT JOIN regions r
+    ON r.country_code = la.country_code
+    WHERE fa.year = 2016 AND fa.country_name != 'World' AND fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 != 0
+    GROUP BY 1, 2, 3) t1
+GROUP BY 1
+ORDER BY 1;
+```
+
+### 3d. List all of the countries that were in the 4th quartile (percent forest > 75%) in 2016.
+
+```sql
+SELECT t1.country_name, 
+        t1.year, 
+        t1.region, TRUNC(((t1.percent_forest_area)::numeric), 2) AS percent_forest_area, t1.quartile
+FROM(SELECT fa.country_name, 
+            fa.year, 
+            r.region, 
+            fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 AS percent_forest_area,
+            NTILE(4) OVER (ORDER BY (fa.forest_area_sqkm) / (la.total_area_sq_mi * 2.59) * 100) AS quartile
+    FROM forest_area fa
+    JOIN land_area la
+    ON fa.country_code = la.country_code AND fa.year = la.year
+    JOIN regions r
+    ON r.country_code = la.country_code
+    WHERE fa.year = 2016
+    GROUP BY 1, 2, 3, 4
+    )t1
+WHERE t1.quartile = 4 AND t1.percent_forest_area >75;
+```
+
+
 
 
 
