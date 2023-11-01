@@ -24,7 +24,7 @@ You will be creating a report for the executive team in which you explain your r
 
 ## Part 1 - Global Situation
 
-###1. Create a View called “forestation” by joining all three tables - forest_area, land_area, and regions in the workspace.
+### 1. Create a View called “forestation” by joining all three tables - forest_area, land_area, and regions in the workspace.
 
 ```sql
 CREATE VIEW forestation
@@ -42,7 +42,7 @@ RIGHT JOIN regions r
 ON r.country_code = la.country_code;
 ```
 
-###1a. What was the total forest area (in sq km) of the world in 1990? Please keep in mind that you can use the country record denoted as “World" in the region table.
+### 1a. What was the total forest area (in sq km) of the world in 1990? Please keep in mind that you can use the country record denoted as “World" in the region table.
 
 ```sql
 SELECT fa.country_code, 
@@ -56,7 +56,7 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 1990;
 ```
 
-###1b. What was the total forest area (in sq km) of the world in 2016? Please keep in mind that you can use the country record in the table is denoted as “World.
+### 1b. What was the total forest area (in sq km) of the world in 2016? Please keep in mind that you can use the country record in the table is denoted as “World.
 
 ```sql
 SELECT fa.country_code, 
@@ -71,7 +71,7 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 2016;
 ```
 
-###1c. What was the change (in sq km) in the forest area of the world from 1990 to 2016?
+### 1c. What was the change (in sq km) in the forest area of the world from 1990 to 2016?
 
 *** I used the created table (forestation) to create this query, as I needed to show a SELF JOIN query.
 ```sql
@@ -91,7 +91,7 @@ AND b.year = 1990
 WHERE a.country_code = 'WLD' AND (a.year = 1990 OR a.year = 2016)) t1;
 ```
 
-###1d.What was the percent change in forest area of the world between 1990 and 2016?
+### 1d.What was the percent change in forest area of the world between 1990 and 2016?
 
 ```sql
 SELECT fa.country_code,
@@ -108,7 +108,7 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND (fa.year = 2016 OR fa.year = 1990);
 ```
 
-###1e.If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?
+### 1e.If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?
 
 ```sql
 SELECT t1.country_code, t1.country_name, t1.year, la.total_area_sq_mi * 2.59 AS total_area_sqkm
