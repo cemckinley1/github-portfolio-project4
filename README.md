@@ -1,12 +1,6 @@
 ## Colin McKinley Portfolio Project 4
 # Project: Deforestation Exploration
 
-## Table of Contents 
-
-- [Project Overview](project-overview)
-
-
-
 ---
 
 ## Project Overview
@@ -55,6 +49,8 @@ RIGHT JOIN regions r
 ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 1990;
 ```
+![](/assets/img/Output1a.png)
+
 
 ### 1b. What was the total forest area (in sq km) of the world in 2016? Please keep in mind that you can use the country record in the table is denoted as “World.
 
