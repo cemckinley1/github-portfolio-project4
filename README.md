@@ -164,6 +164,7 @@ GROUP BY 1, 2, 3;
 ```
 ![](/assets/img/Output2aa.png)
 
+### HIGHEST
 ```sql
 SELECT r.region, 
         fa.year, 
@@ -180,6 +181,7 @@ LIMIT 1;
 ```
 ![](/assets/img/Output2ab.png)
 
+### LOWEST
 ```sql
 SELECT r.region, 
         fa.year, 
@@ -212,6 +214,7 @@ GROUP BY 1, 2, 3;
 ```
 ![](/assets/img/Output2ba.png)
 
+### HIGHEST
 ```sql
 SELECT r.region, 
         fa.year, 
@@ -228,6 +231,7 @@ LIMIT 1;
 ```
 ![](/assets/img/Output2bb.png)
 
+### LOWEST
 ```sql
 SELECT r.region, 
         fa.year, 
