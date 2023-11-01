@@ -162,6 +162,8 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 2016
 GROUP BY 1, 2, 3;  
 ```
+![](/assets/img/Output2aa.png)
+
 ```sql
 SELECT r.region, 
         fa.year, 
@@ -176,6 +178,8 @@ GROUP BY 1, 2
 ORDER BY 3 DESC
 LIMIT 1;
 ```
+![](/assets/img/Output2ab.png)
+
 ```sql
 SELECT r.region, 
         fa.year, 
@@ -190,6 +194,7 @@ GROUP BY 1, 2
 ORDER BY 3
 LIMIT 1; 
 ```
+![](/assets/img/Output2ac.png)
 
 ### 2b. What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, and which had the LOWEST, to 2 decimal places?
 
@@ -205,6 +210,7 @@ ON r.country_code = la.country_code
 WHERE fa.country_code = 'WLD' AND fa.year = 1990
 GROUP BY 1, 2, 3; 
 ```
+![](/assets/img/Output2ba.png)
 
 ```sql
 SELECT r.region, 
@@ -220,6 +226,7 @@ GROUP BY 1, 2
 ORDER BY 3 DESC
 LIMIT 1;
 ```
+![](/assets/img/Output2bb.png)
 
 ```sql
 SELECT r.region, 
@@ -235,6 +242,7 @@ GROUP BY 1, 2
 ORDER BY 3
 LIMIT 1;
 ```
+![](/assets/img/Output2bc.png)
 
 
 ### 2c. Based on the table you created, which regions of the world DECREASED in forest area from 1990 to 2016?
@@ -252,6 +260,7 @@ WHERE fa.year = 1990 AND fa.country_code != 'WLD'
 GROUP BY 1, 2
 ORDER BY 1;
 ```
+![](/assets/img/Output2ca.png)
 
 ```sql
 SELECT r.region, 
@@ -266,6 +275,7 @@ WHERE fa.year = 2016 AND fa.country_code != 'WLD'
 GROUP BY 1, 2
 ORDER BY 1;  
 ```
+![](/assets/img/Output2cb.png)
 
 ```sql
 SELECT r.region, 
@@ -279,8 +289,10 @@ ON r.country_code = la.country_code
 WHERE r.region = 'World' AND (fa.year = 1990 OR fa.year = 2016)
 GROUP BY 1, 2
 ORDER BY 1, 2; 
-
 ```
+![](/assets/img/Output2cc.png)
+
+---
 
 ## 3. Country-level Detail
 
