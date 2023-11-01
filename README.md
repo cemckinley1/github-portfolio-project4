@@ -314,6 +314,7 @@ WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
 ORDER BY fa.year DESC, forest_sqkm_change DESC) t1
 WHERE t1.forest_sqkm_change != 0 AND t1.year != 1990
 ```
+![](/assets/img/Output3aa.png)
 
 ```sql
 SELECT t1.country_code, t1.country_name, t1.region,  TRUNC(((t1.percent_change)::numeric), 2) AS percent_change
@@ -332,6 +333,7 @@ WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)) t1
 WHERE t1.percent_change != 0 AND t1.year != 1990
 ORDER BY 4 DESC;
 ```
+![](/assets/img/Output3bb.png)
 
 ### 3a. Which 5 countries saw the largest amount decrease in forest area from 1990 to 2016? What was the difference in forest area for each?
 
@@ -352,6 +354,7 @@ WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
 ORDER BY fa.year DESC, forest_sqkm_change
 LIMIT 5;
 ```
+![](/assets/img/Output3a.png)
 
 ### 3b. Which 5 countries saw the largest percent decrease in forest area from 1990 to 2016? What was the percent change to 2 decimal places for each?
 
@@ -370,6 +373,7 @@ WHERE fa.country_code != 'WLD' AND (fa.year = 1990 OR fa.year = 2016)
 ORDER BY fa.year DESC, percent_change
 LIMIT 5;
 ```
+![](/assets/img/Output3b.png)
 
 ### 3c. If countries were grouped by percent forestation in quartiles, which group had the most countries in it in 2016?
 
@@ -391,6 +395,7 @@ WHEN fa.forest_area_sqkm / (la.total_area_sq_mi * 2.59) * 100 > 75 THEN 'Quartil
 GROUP BY 1
 ORDER BY 1;
 ```
+![](/assets/img/Output3c.png)
 
 ### 3d. List all of the countries that were in the 4th quartile (percent forest > 75%) in 2016.
 
@@ -413,7 +418,7 @@ FROM(SELECT fa.country_name,
     )t1
 WHERE t1.quartile = 4 AND t1.percent_forest_area >75;
 ```
-
+![](/assets/img/Output3d.png)
 
 
 
